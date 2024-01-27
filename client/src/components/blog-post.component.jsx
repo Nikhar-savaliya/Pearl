@@ -26,7 +26,7 @@ const BlogPostCard = ({ content, author }) => {
         </div>
 
         <div className="flex gap-2 items-center mt-2 text-zinc-500 ">
-          <img src={profile_img} className="w-6 h-6 rounded-full" />
+          <img src={profile_img} className="w-6 h-6 rounded-full bg-zinc-400" />
           <p className="line-clamp-1">@{username} · </p>
           <p className="min-w-fit">{getDay(publishedAt)}</p>
           <span className="ml-3 flex items-center gap-2 text-zinc-400">
@@ -55,7 +55,7 @@ const BlogPostCard = ({ content, author }) => {
         <img
           src={banner}
           alt="banner image"
-          className="w-full h-full aspect-square object-cover"
+          className="w-full h-full aspect-square object-cover bg-zinc-400/70"
         />
       </div>
     </Link>

@@ -9,6 +9,8 @@ import axios from "axios";
 import { filterPaginationData } from "../common/filter-pagination-data";
 import MinimalBlogPost from "../components/nobanner-blog-post.component";
 import BlogPostCard from "../components/blog-post.component";
+import UserCard from "../components/usercard.component";
+import { User } from "lucide-react";
 
 const SearchPage = () => {
   const { query } = useParams();
@@ -35,50 +37,86 @@ const SearchPage = () => {
   };
   const resetState = () => {
     setBlogs(null);
+    setUsers(null);
   };
   const fetchUsers = () => {
     axios
-      .post(import.meta.env.VITE_SERVER_URL + "/seach-  users", { query })
-      .then(({ data: { users } }) => {
-        console.log(users);
+      .post(import.meta.env.VITE_SERVER_URL + "/search-users", { query })
+      .then(({ data: { user } }) => {
+        setUsers(user);
       })
-      .catch(() => {});
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   useEffect(() => {
     resetState();
     searchBlogs({ page: 1, createNewArray: true });
+    fetchUsers();
   }, [query]);
+
+  const UserCardWrapper = () => {
+    return (
+      <>
+        {users == null ? (
+          <Loader />
+        ) : users.length ? (
+          users.map((user, index) => (
+            <AnimationWrapper
+              key={index}
+              transition={{ duration: 1, delay: index * 0.1 }}
+            >
+              <UserCard user={user} />
+            </AnimationWrapper>
+          ))
+        ) : (
+          <NoDataMessage message={"No user found"} />
+        )}
+      </>
+    );
+  };
+
   return (
-    <section className="h-cover flex items-center gap-10">
+    <section className="h-cover flex bg-zinc-50 gap-10">
       <div className="w-full">
         <InPageNavigation
           routes={[`search results for "${query}"`, "accounts matched"]}
-          defaultHidden={"account matched"}
-        />
-        <>
-          {blogs == null ? (
-            <Loader />
-          ) : blogs.results.length ? (
-            blogs.results.map((blog, index) => {
-              return (
-                <AnimationWrapper
-                  transition={{ duration: 1, delay: index * 0.1 }}
-                  key={index}
-                  className={"flex gap-4"}
-                >
-                  <BlogPostCard
-                    content={blog}
-                    author={blog.author.personal_info}
-                  />
-                </AnimationWrapper>
-              );
-            })
-          ) : (
-            <NoDataMessage message={"No blogs Published."} />
-          )}
-          <LoadMoreDataButton state={blogs} fetchDataFunction={searchBlogs} />
-        </>
+          defaultHidden={["accounts matched"]}
+        >
+          <>
+            {blogs == null ? (
+              <Loader />
+            ) : blogs.results.length ? (
+              blogs.results.map((blog, index) => {
+                return (
+                  <AnimationWrapper
+                    transition={{ duration: 1, delay: index * 0.1 }}
+                    key={index}
+                    className={"flex gap-4"}
+                  >
+                    <BlogPostCard
+                      content={blog}
+                      author={blog.author.personal_info}
+                    />
+                  </AnimationWrapper>
+                );
+              })
+            ) : (
+              <NoDataMessage message={"No blogs Published."} />
+            )}
+            <LoadMoreDataButton state={blogs} fetchDataFunction={searchBlogs} />
+          </>
+
+          <UserCardWrapper />
+        </InPageNavigation>
+      </div>
+      <div className=" min-w[40%] lg:min-w-[350px] max-w-min border-1 border-zinc-200 pl-8 pt-3 max-md:hidden">
+        <h1 className="font-medium text-xl mb-8 flex gap-1">
+          Users related to seach
+          <User width={18} />
+        </h1>
+        <UserCardWrapper />
       </div>
     </section>
   );

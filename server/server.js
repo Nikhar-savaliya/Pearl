@@ -386,6 +386,14 @@ server.post(`/search-blogs`, (req, res) => {
     });
 });
 
+server.post("/get-profile", (req, res) => {
+  let { username } = req.body;
+  User.findOne({ "personal_info.username": username })
+    .select("-personal_info.password -_id -google_auth -updatedAt -blogs")
+    .then((user) => res.status(200).json(user))
+    .catch((err) => res.this.status(500).json({ error: err.message }));
+});
+
 // ------------- SERVER LISTENING ON PORT 3000 -----------
 server.listen(PORT, () => {
   console.log(`server started at port:  ${PORT}`);

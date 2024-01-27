@@ -34,9 +34,12 @@ const Navbar = () => {
   return (
     <>
       <nav className="navbar ">
-        <Link to={"/"} className=" flex items-end">
-          <img src={logo} alt="brand logo" className="w-10" />
-          <p className="font-bold font-gelasio text-2xl">Quill</p>
+        <Link to={"/"} className="">
+          <img
+            src={logo}
+            alt="brand logo"
+            className=" h-10 md:h-14 object-contain"
+          />
         </Link>
 
         <div
