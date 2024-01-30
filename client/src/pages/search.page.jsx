@@ -7,7 +7,6 @@ import NoDataMessage from "../components/nodata.component";
 import LoadMoreDataButton from "../components/load-more.component";
 import axios from "axios";
 import { filterPaginationData } from "../common/filter-pagination-data";
-import MinimalBlogPost from "../components/nobanner-blog-post.component";
 import BlogPostCard from "../components/blog-post.component";
 import UserCard from "../components/usercard.component";
 import { User } from "lucide-react";
@@ -26,7 +25,7 @@ const SearchPage = () => {
           newData: data.blogs,
           page: page,
           countRoute: "/search-blogs-count",
-          dataToSend: { query },
+          dataToSend,
           createNewArray,
         });
         setBlogs(formatdata);
