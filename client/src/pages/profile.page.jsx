@@ -6,7 +6,6 @@ import AnimationWrapper from "../common/page-animation";
 import { UserContext } from "../App.jsx";
 import AboutUser from "../components/about.component.jsx";
 import { filterPaginationData } from "../common/filter-pagination-data.jsx";
-import { CloudCog } from "lucide-react";
 import BlogPostCard from "../components/blog-post.component.jsx";
 import NoDataMessage from "../components/nodata.component.jsx";
 import LoadMoreDataButton from "../components/load-more.component.jsx";
@@ -49,8 +48,10 @@ const ProfilePage = () => {
         username: id,
       })
       .then(({ data: user }) => {
-        if(user != null) {setProfile(user);}
-        fetchBlogs({userId: user._id})
+        if (user != null) {
+          setProfile(user);
+        }
+        fetchBlogs({ userId: user._id });
         setLoading(false);
       })
       .catch((err) => {
@@ -59,32 +60,33 @@ const ProfilePage = () => {
       });
   };
 
-  const fetchBlogs = ({page=1, userId}) => {
+  const fetchBlogs = ({ page = 1, userId }) => {
     userId = userId == undefined ? blogs.userId : userId;
     axios
       .post(import.meta.env.VITE_SERVER_URL + `/search-blogs`, {
         author: userId,
-        page
-      }).then(async ({data})=>{
+        page,
+      })
+      .then(async ({ data }) => {
         let formatedData = await filterPaginationData({
           blogState: blogs,
           newData: data.blogs,
           countRoute: "/search-blogs-count",
-          dataToSend: {author: userId}
-        })
+          dataToSend: { author: userId },
+        });
         formatedData.userId = userId;
         setBlogs(formatedData);
-      }) 
-  }
+      });
+  };
 
   const resetStates = () => {
     setProfile(profilDataStructure);
     setBlogs(null);
     setLoading(true);
-  }
+  };
 
   useEffect(() => {
-    resetStates()
+    resetStates();
     fetchProfile();
   }, []);
 
@@ -92,8 +94,7 @@ const ProfilePage = () => {
     <AnimationWrapper>
       {loading ? (
         <Loader />
-      ) : profile_username.length ?
-       (
+      ) : profile_username.length ? (
         <section className="h-cover md:flex flex-row-reverse items-start gap-5 min-[1100px]:gap-12 bg-zinc-50">
           <div className="flex flex-col max-md:items-center gap-5 min-w-[250px] md:w-[50%] md:pl-8 md:border-l border-zinc-200 md:sticky md:top-[100px] md:py-10">
             <img
@@ -119,46 +120,55 @@ const ProfilePage = () => {
               ""
             )}
 
-            <AboutUser className={"max-md:hidden"} bio={bio} social_links={social_links} joinedAt={joinedAt} />
+            <AboutUser
+              className={"max-md:hidden"}
+              bio={bio}
+              social_links={social_links}
+              joinedAt={joinedAt}
+            />
           </div>
           <div className="max-md:mt-12 w-full">
-
-          <InPageNavigation
-            routes={["Blogs", "About"]}
-            defaultHidden={["About"]}
-          >
-            <>
-              {blogs == null ? (
-                <Loader />
-              ) : blogs.results.length ? (
-                blogs.results.map((blog, index) => {
-                  return (
-                    <AnimationWrapper
-                      transition={{ duration: 1, delay: index * 0.1 }}
-                      key={index}
-                      className={"flex gap-4"}
-                    >
-                      <BlogPostCard
-                        content={blog}
-                        author={blog.author.personal_info}
-                      />
-                    </AnimationWrapper>
-                  );
-                })
-              ) : (
-                <NoDataMessage message={"No blogs Published."} />
-              )}
-              <LoadMoreDataButton
-                state={blogs}
-                fetchDataFunction={fetchBlogs}
+            <InPageNavigation
+              routes={["Blogs", "About"]}
+              defaultHidden={["About"]}
+            >
+              <>
+                {blogs == null ? (
+                  <Loader />
+                ) : blogs.results.length ? (
+                  blogs.results.map((blog, index) => {
+                    return (
+                      <AnimationWrapper
+                        transition={{ duration: 1, delay: index * 0.1 }}
+                        key={index}
+                        className={"flex gap-4"}
+                      >
+                        <BlogPostCard
+                          content={blog}
+                          author={blog.author.personal_info}
+                        />
+                      </AnimationWrapper>
+                    );
+                  })
+                ) : (
+                  <NoDataMessage message={"No blogs Published."} />
+                )}
+                <LoadMoreDataButton
+                  state={blogs}
+                  fetchDataFunction={fetchBlogs}
+                />
+              </>
+              <AboutUser
+                bio={bio}
+                social_links={social_links}
+                joinedAt={joinedAt}
               />
-            </>
-            <AboutUser bio={bio} social_links={social_links} joinedAt={joinedAt} />
-          </InPageNavigation>
+            </InPageNavigation>
           </div>
-
         </section>
-      ): <NotFound/>}
+      ) : (
+        <NotFound />
+      )}
     </AnimationWrapper>
   );
 };

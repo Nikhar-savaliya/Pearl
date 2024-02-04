@@ -104,7 +104,7 @@
 
   #textEditor a,
   .blog-page-content a {
-    @apply text-emerald-400 underline hover:opacity-50;
+    @apply text-emerald-600 underline hover:text-emerald-700;
   }
 
   .tag {

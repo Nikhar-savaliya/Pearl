@@ -66,7 +66,14 @@ export const tools = {
       },
     },
   },
-  header: Header,
+  header: {
+    class: Header,
+    config: {
+      placeholder: "Enter a Heading",
+      levels: [2, 3],
+      defaultLevel: 2,
+    },
+  },
   quote: { class: Quote, inlineToolbar: true },
   marker: Marker,
   inlineCode: InlineCode,

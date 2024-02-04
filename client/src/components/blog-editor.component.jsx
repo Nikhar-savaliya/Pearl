@@ -9,7 +9,7 @@ import { useContext, useEffect, useState } from "react";
 import { EditorContext } from "../pages/editor.pages";
 import EditorJS from "@editorjs/editorjs";
 import { tools } from "./tools.component";
-import { UserContext } from "../App";
+import { UserContext } from "../App.jsx";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 

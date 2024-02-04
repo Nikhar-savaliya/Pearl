@@ -310,8 +310,6 @@ server.post("/all-latest-blogs-count", (req, res) => {
     .catch((err) => res.status(500).json({ error: err.message }));
 });
 
-
-
 server.get("/trending-blogs", (req, res) => {
   Blog.find({ draft: false })
     .populate(
@@ -347,17 +345,23 @@ server.post("/search-users", (req, res) => {
       return res.status(500).json({ error: err.message });
     });
 });
+
 server.post("/search-blogs", (req, res) => {
-  let { tag, page, query, author } = req.body;
+  let { tag, page, query, author, limit, eliminateBlog } = req.body;
   let findQuery;
   if (tag) {
-    findQuery = { tags: tag, draft: false };
+    findQuery = {
+      tags: tag,
+      draft: false,
+      blog_id: { $ne: eliminateBlog },
+    };
   } else if (query) {
     findQuery = { title: new RegExp(query, "i"), draft: false };
   } else if (author) {
     findQuery = { author, draft: false };
   }
-  let maxLimit = 3;
+  let maxLimit;
+  limit ? (maxLimit = limit) : (maxLimit = 3);
   Blog.find(findQuery)
     .populate(
       "author",
@@ -399,6 +403,31 @@ server.post("/get-profile", (req, res) => {
     .select("-personal_info.password -google_auth -updatedAt -blogs")
     .then((user) => res.status(200).json(user))
     .catch((err) => res.this.status(500).json({ error: err.message }));
+});
+
+// @get-blog route
+server.post("/get-blog", (req, res) => {
+  let { blogId } = req.body;
+
+  let incrementalValue = 1;
+
+  Blog.findOneAndUpdate(
+    { blog_id: blogId },
+    { $inc: { "activity.total_reads": incrementalValue } }
+  )
+    .populate(
+      "author",
+      "personal_info.username personal_info.fullname personal_info.profile_img -_id"
+    )
+    .select("-comment -draft -_id -updatedAt -__v")
+    .then((blog) => {
+      User.findOneAndUpdate(
+        { "personal_info.username": blog.author.personal_info.username },
+        { $inc: { "account_info.total_reads": incrementalValue } }
+      ).catch((err) => console.log(err));
+      return res.status(200).json({ blog });
+    })
+    .catch((err) => res.status(500).json(err));
 });
 
 // ------------- SERVER LISTENING ON PORT 3000 -----------
