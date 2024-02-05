@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import logo from "../imgs/logo.png";
 import defaultBanner from "../imgs/blog banner.png";
 import AnimationWrapper from "../common/page-animation";
@@ -14,6 +14,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const BlogEditor = () => {
+  const { blogId } = useParams();
+
   const [selectedFile, setSelectedFile] = useState(null);
   const {} = useContext(UserContext);
   let navigate = useNavigate();
@@ -36,7 +38,7 @@ const BlogEditor = () => {
       setTextEditor(
         new EditorJS({
           holderId: "textEditor",
-          data: content,
+          data: Array.isArray(content) ? content[0] : content,
           tools: tools,
 
           placeholder: "Write story here",
@@ -156,19 +158,23 @@ const BlogEditor = () => {
           description,
           tags,
           content,
-          darft: true,
+          draft: true,
         };
         axios
-          .post(import.meta.env.VITE_SERVER_URL + "/create-blog", blogObj, {
-            headers: {
-              Authorization: `Bearer ${access_token}`,
-            },
-          })
+          .post(
+            import.meta.env.VITE_SERVER_URL + "/create-blog",
+            { ...blogObj, blogId },
+            {
+              headers: {
+                Authorization: `Bearer ${access_token}`,
+              },
+            }
+          )
           .then((res) => {
             console.log(res);
             e.target.classList.remove("disable");
             toast.dismiss(loader);
-            toast.success("Blog published");
+            toast.success("Blog saved");
 
             setTimeout(() => {
               navigate("/");

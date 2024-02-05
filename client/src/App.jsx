@@ -24,6 +24,7 @@ const App = () => {
     <UserContext.Provider value={{ userAuth, setUserAuth }}>
       <Routes>
         <Route path="/editor" element={<EditorPage />} />
+        <Route path="/editor/:blogId" element={<EditorPage />} />
         <Route path="/" element={<Navbar />}>
           <Route index element={<Home />} />
           <Route path="signin" element={<UserAuthForm type={"sign-in"} />} />

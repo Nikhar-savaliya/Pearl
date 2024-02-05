@@ -99,7 +99,7 @@ const BlogPage = () => {
                 );
               })}
             </div>
-            <BlogInteraction />
+            {/* <BlogInteraction /> */}
           </div>
         )}
       </AnimationWrapper>

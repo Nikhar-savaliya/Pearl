@@ -6,11 +6,14 @@ import { EditorContext } from "../pages/editor.pages";
 import { toast, Toaster } from "react-hot-toast";
 import Tag from "./tags.component";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const PublishForm = () => {
   let maxCharacterLimit = 200;
   let maxTagsLimit = 10;
+
+  const { blogId } = useParams();
+
   let navigate = useNavigate();
   let {
     userAuth: { access_token },
@@ -53,11 +56,15 @@ const PublishForm = () => {
       darft: false,
     };
     axios
-      .post(import.meta.env.VITE_SERVER_URL + "/create-blog", blogObj, {
-        headers: {
-          Authorization: `Bearer ${access_token}`,
-        },
-      })
+      .post(
+        import.meta.env.VITE_SERVER_URL + "/create-blog",
+        { ...blogObj, blogId },
+        {
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+          },
+        }
+      )
       .then((res) => {
         console.log(res);
         e.target.classList.remove("disable");
