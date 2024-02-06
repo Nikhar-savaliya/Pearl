@@ -25,7 +25,7 @@ const SearchPage = () => {
           newData: data.blogs,
           page: page,
           countRoute: "/search-blogs-count",
-          dataToSend,
+          dataToSend: query,
           createNewArray,
         });
         setBlogs(formatdata);
@@ -111,8 +111,8 @@ const SearchPage = () => {
         </InPageNavigation>
       </div>
       <div className=" min-w[40%] lg:min-w-[350px] max-w-min border-1 border-zinc-200 pl-8 pt-3 max-md:hidden">
-        <h1 className="font-medium text-xl mb-8 flex gap-1">
-          Users related to seach
+        <h1 className="font-medium text-xl mb-8 flex gap-2">
+          Users related to search
           <User width={18} />
         </h1>
         <UserCardWrapper />

@@ -31,8 +31,8 @@ const BlogPage = () => {
   const { blogId } = useParams();
 
   let [blog, setBlog] = useState(blogStructure);
-  let [similarBlogs, setSimilarBlogs] = useState(null);
   let [loading, setLoading] = useState(true);
+  let [isLikedByUser, setIsLikedByUser] = useState(false);
 
   let {
     title,
@@ -64,7 +64,9 @@ const BlogPage = () => {
     getBlog();
   }, []);
   return (
-    <BlogContext.Provider value={{ blog, setBlog }}>
+    <BlogContext.Provider
+      value={{ blog, setBlog, isLikedByUser, setIsLikedByUser }}
+    >
       <AnimationWrapper className={"bg-zinc-50"}>
         {loading ? (
           <Loader />
