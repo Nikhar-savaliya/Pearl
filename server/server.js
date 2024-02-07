@@ -10,6 +10,8 @@ import { getAuth } from "firebase-admin/auth";
 // SCHEMA
 import User from "./Schema/User.js";
 import Blog from "./Schema/Blog.js";
+import Notification from "./Schema/Notification.js";
+
 import { nanoid } from "nanoid";
 import cors from "cors";
 
@@ -436,7 +438,7 @@ server.post("/get-blog", (req, res) => {
       "author",
       "personal_info.username personal_info.fullname personal_info.profile_img -_id"
     )
-    .select("-comment  -_id -updatedAt -__v")
+    .select("-comment -updatedAt -__v")
     .then((blog) => {
       User.findOneAndUpdate(
         { "personal_info.username": blog.author.personal_info.username },
@@ -451,6 +453,48 @@ server.post("/get-blog", (req, res) => {
       return res.status(200).json({ blog });
     })
     .catch((err) => res.status(500).json(err));
+});
+
+// @like-blog route
+server.post("/like-blog", verifyJWT, (req, res) => {
+  const { _id, isLikedByUser } = req.body;
+  let incrementalValue = !isLikedByUser ? 1 : -1;
+  console.log(_id, isLikedByUser);
+  Blog.findOneAndUpdate(
+    { _id },
+    { $inc: { "activity.total_likes": incrementalValue } }
+  ).then((blog) => {
+    if (isLikedByUser == true) {
+      let like = new Notification({
+        type: "like",
+        notification_for: blog.author,
+        blog: _id,
+        user: req.user,
+      });
+
+      like.save().then((notification) => {
+        return res.status(200).json({ likedByUser: true });
+      });
+    } else {
+      Notification.findOneAndDelete({
+        user: req.user,
+        blog: _id,
+        type: "like",
+      })
+        .then((data) => res.status(200).json({ likedByUser: false }))
+        .catch((err) => res.status(500).json({ error: err.message }));
+    }
+  });
+});
+
+// @isliked-by-user
+server.post("/isliked-by-user", verifyJWT, (req, res) => {
+  const { _id } = req.body;
+  const user_id = req.user;
+
+  Notification.exists({ type: "like", blog: _id, user: user_id })
+    .then((data) => res.status(200).json(data))
+    .catch((err) => res.status(500).json({ error: err.message }));
 });
 
 // ------------- SERVER LISTENING ON PORT 3000 -----------

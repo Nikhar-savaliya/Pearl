@@ -8,6 +8,7 @@ import BlogInteraction from "../components/blog-interaction.component";
 import BlogContent from "../components/blog-content.component";
 
 export const blogStructure = {
+  _id: "",
   blog_id: "",
   title: "",
   description: "",
