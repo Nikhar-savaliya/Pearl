@@ -32,12 +32,12 @@ const UserNavigationPanel = () => {
         <Link to={`/user/${username}`} className="link pl-8 py-4">
           profile
         </Link>
-        <Link to="dashboard/board" className="link pl-8 py-4">
+        {/* <Link to="dashboard/board" className="link pl-8 py-4">
           dashboard
         </Link>
         <Link to="settings/edit-profile" className="link pl-8 py-4">
           settings
-        </Link>
+        </Link> */}
 
         <button
           className="text-left p-4 hover:bg-zinc-200 w-full pl-8 py-4 border-t border-zinc-200"

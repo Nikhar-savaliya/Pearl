@@ -1,5 +1,5 @@
 import { Link, useParams } from "react-router-dom";
-import logo from "../imgs/logo.png";
+import logo from "../assets/Logo.svg";
 import defaultBanner from "../imgs/blog banner.png";
 import AnimationWrapper from "../common/page-animation";
 import { storage } from "../common/firebase";
@@ -140,12 +140,12 @@ const BlogEditor = () => {
     if (!title.length) {
       return toast.error("Please provide the Title");
     }
-    // if (!description.length) {
-    //   return toast.error("Please provide the Description");
-    // }
-    // if (!tags.length) {
-    //   return toast.error("Please provide the atleast one tag");
-    // }
+    if (!description.length) {
+      return toast.error("Please provide the Description");
+    }
+    if (!tags.length) {
+      return toast.error("Please provide the atleast one tag");
+    }
     let loader = toast.loading("Saving Draft");
 
     e.target.classList.add("disable");
@@ -192,7 +192,7 @@ const BlogEditor = () => {
     <>
       <Toaster />
       <nav className="navbar">
-        <Link to="/" className="flex-none w-10">
+        <Link to="/" className="flex-none w-12">
           <img src={logo} />
         </Link>
         <p className="max-md:hidden text-zinc-900 line-clamp-1 w-full">

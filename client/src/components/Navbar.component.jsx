@@ -1,6 +1,6 @@
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { Search, FileEdit, Bell } from "lucide-react";
-import logo from "../imgs/logo.png";
+import logo from "../assets/Logo.svg";
 import { useContext, useState } from "react";
 import { UserContext } from "../App";
 import UserNavigationPanel from "./user-navigation.component";
@@ -38,7 +38,7 @@ const Navbar = () => {
           <img
             src={logo}
             alt="brand logo"
-            className=" h-10 md:h-14 object-contain"
+            className=" h-10 md:h-12 object-contain"
           />
         </Link>
 

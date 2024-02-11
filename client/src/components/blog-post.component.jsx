@@ -29,10 +29,10 @@ const BlogPostCard = ({ content, author }) => {
           <img src={profile_img} className="w-6 h-6 rounded-full bg-zinc-50" />
           <p className="line-clamp-1">@{username} · </p>
           <p className="min-w-fit">{getDay(publishedAt)}</p>
-          <span className="ml-3 flex items-center gap-2 text-zinc-400">
+          {/* <span className="ml-3 flex items-center gap-2 text-zinc-400">
             <Heart width={16} />
             {total_likes}
-          </span>
+          </span> */}
         </div>
 
         <div className="flex gap-2 my-4 flex-wrap">

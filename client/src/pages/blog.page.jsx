@@ -33,7 +33,7 @@ const BlogPage = () => {
 
   let [blog, setBlog] = useState(blogStructure);
   let [loading, setLoading] = useState(true);
-  let [isLikedByUser, setIsLikedByUser] = useState(false);
+  // let [isLikedByUser, setIsLikedByUser] = useState(false);
 
   let {
     title,
@@ -65,34 +65,36 @@ const BlogPage = () => {
     getBlog();
   }, []);
   return (
-    <BlogContext.Provider
-      value={{ blog, setBlog, isLikedByUser, setIsLikedByUser }}
-    >
+    <BlogContext.Provider value={{ blog, setBlog }}>
       <AnimationWrapper className={"bg-zinc-50"}>
         {loading ? (
           <Loader />
         ) : (
           <div className="max-w-4xl center py-10 max-lg:px-[5vw]">
             <img src={banner} className="aspect-video" />
-            <div className="mt-12">
+            <div className="mt-12 border-b">
               <h2>{title}</h2>
-              <div className="flex max-sm:flex-col justify-between my-8">
-                <div className="flex gap-5 items-start">
-                  <img src={profile_img} className="w-12 h-12 rounded-full" />
-                  <p className="capitalize">
-                    {fullname}
-                    <br />@
-                    <Link to={`/user/${authorUsername}`} className="underline">
+              <div className="flex justify-between items-center py-3">
+                <div className="flex gap-2 items-center mt-2 text-zinc-500 ">
+                  <img
+                    src={profile_img}
+                    className="w-6 h-6 rounded-full bg-zinc-50"
+                  />
+                  <p className="line-clamp-1">
+                    @
+                    <Link
+                      to={`/user/${authorUsername}`}
+                      className="hover:underline"
+                    >
                       {authorUsername}
-                    </Link>
+                    </Link>{" "}
+                    ·{" "}
                   </p>
+                  <p className="min-w-fit">{getDay(publishedAt)}</p>
                 </div>
-                <p className="text-zinc-600 opacity-75 max-sm:mt-6 max-sm:ml-12 max-sm:pl-5">
-                  Published On {getDay(publishedAt)}
-                </p>
               </div>
             </div>
-            <BlogInteraction />
+            {/* <BlogInteraction /> */}
             <div className="blog-page-content">
               {content[0].blocks.map((blogItem, index) => {
                 return (

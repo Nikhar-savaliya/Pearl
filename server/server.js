@@ -130,7 +130,6 @@ server.post("/signin", (req, res) => {
 
   User.findOne({ "personal_info.email": email })
     .then((user) => {
-      console.log(user);
       if (!user) {
         return res.status(403).json({ error: "email not found" });
       }
@@ -214,7 +213,7 @@ server.post("/google-auth", async (req, res) => {
 });
 
 server.post("/create-blog", verifyJWT, (req, res) => {
-  console.log(req.body);
+  
   let authorId = req.user;
 
   let { title, banner, content, tags, description, draft, blogId } = req.body;
@@ -286,7 +285,7 @@ server.post("/create-blog", verifyJWT, (req, res) => {
           }
         )
           .then((user) => {
-            console.log("user Registerd");
+            
             res.status(200).json({ id: blog.blog_id });
           })
           .catch((err) => {
@@ -427,7 +426,7 @@ server.post("/get-profile", (req, res) => {
 // @get-blog route
 server.post("/get-blog", (req, res) => {
   let { blogId, draft, mode } = req.body;
-  console.log(blogId, draft, mode);
+  
   let incrementalValue = mode == "edit" ? 0 : 1;
 
   Blog.findOneAndUpdate(
@@ -459,7 +458,7 @@ server.post("/get-blog", (req, res) => {
 server.post("/like-blog", verifyJWT, (req, res) => {
   const { _id, isLikedByUser } = req.body;
   let incrementalValue = !isLikedByUser ? 1 : -1;
-  console.log(_id, isLikedByUser);
+  
   Blog.findOneAndUpdate(
     { _id },
     { $inc: { "activity.total_likes": incrementalValue } }
