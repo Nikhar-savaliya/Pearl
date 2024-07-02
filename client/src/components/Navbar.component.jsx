@@ -1,6 +1,6 @@
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { Search, FileEdit, Bell } from "lucide-react";
-import logo from "../assets/Logo.svg";
+import logo from "../assets/pearl.svg";
 import { useContext, useState } from "react";
 import { UserContext } from "../App";
 import UserNavigationPanel from "./user-navigation.component";
@@ -34,12 +34,13 @@ const Navbar = () => {
   return (
     <>
       <nav className="navbar ">
-        <Link to={"/"} className="">
+        <Link to={"/"} className="flex items-center">
           <img
             src={logo}
             alt="brand logo"
             className=" h-10 md:h-12 object-contain"
           />
+          {/* <span className="text-2xl font-bold">Pearl</span> */}
         </Link>
 
         <div
@@ -76,11 +77,11 @@ const Navbar = () => {
           </Link>
           {access_token ? (
             <>
-              <Link to={"/dashboard/notification"}>
+              {/* <Link to={"/dashboard/notification"}>
                 <button className="w-12 h-12 rounded-full  border border-zinc-200 bg-zinc-100 relative hover:bg-zinc-200">
                   <Bell width={18} className="mx-auto text-zinc-800" />
                 </button>
-              </Link>
+              </Link> */}
 
               <div
                 className="relative"

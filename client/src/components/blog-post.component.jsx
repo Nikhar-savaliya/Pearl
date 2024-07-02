@@ -36,16 +36,16 @@ const BlogPostCard = ({ content, author }) => {
         </div>
 
         <div className="flex gap-2 my-4 flex-wrap">
-          <span className="tag py-2 px-5 bg-zinc-200 rounded-full capitalize">
+          <span className="tag py-1 px-4 text-sm bg-zinc-200/70 rounded-full capitalize">
             {tags[0]}
           </span>
           {tags[1] && (
-            <span className="tag py-2 px-5 bg-zinc-200 rounded-full capitalize">
+            <span className="tag py-1 px-4 text-sm bg-zinc-200/70 rounded-full capitalize">
               {tags[1]}
             </span>
           )}
           {tags[2] && (
-            <span className="tag py-2 px-5 bg-zinc-200 rounded-full capitalize">
+            <span className="tag py-1 px-4 text-sm bg-zinc-200/70 rounded-full capitalize">
               {tags[2]}
             </span>
           )}

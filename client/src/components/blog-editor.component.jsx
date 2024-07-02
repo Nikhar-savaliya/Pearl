@@ -1,5 +1,5 @@
 import { Link, useParams } from "react-router-dom";
-import logo from "../assets/Logo.svg";
+import logo from "../assets/pearl.svg";
 import defaultBanner from "../imgs/blog banner.png";
 import AnimationWrapper from "../common/page-animation";
 import { storage } from "../common/firebase";
