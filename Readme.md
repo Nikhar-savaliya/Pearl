@@ -1,11 +1,17 @@
-// # Fullstack Medium.com Clone, using React + tailwind for frontend and express.js + mongoDB for backend.
+# Pearl - Blog website inspired by medium
 
-This website's features include -
+## Tech Stack
 
-1. Modern Blog Editor using Editor JS.
-2. Google Authentication for Users
-3. Dynamic Blog Pages on dynamic URLs.
-4. Search Page for Searching Blogs & users.
-5. Dedicated user profiles with their social links and written blogs.
-14. It's mobile responsive with a modern design + fade-in page animation.
-    And much more.
+[![Tech stack](https://skillicons.dev/icons?i=react,javascript,express,mongodb,tailwindcss)](https://skillicons.dev)
+
+## Features
+
+- **Modern Blog Editor:** Utilizes Editor JS for a rich blog editing experience.
+- **Google Authentication:** Users can log in using their Google accounts.
+- **Dynamic Blog Pages:** Blogs are accessible via dynamic URLs.
+- **Search Page:** Allows searching for blogs and users.
+- **User Profiles:** Dedicated profiles with social links and written blogs.
+- **Mobile Responsive:** Ensures a modern design with fade-in page animations.
+- **And Much More:** Additional features to enhance user experience.
+
+
